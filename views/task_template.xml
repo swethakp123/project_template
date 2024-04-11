@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!--        create kanban view for task template-->
+        <record model="ir.ui.view" id="task_template_kanban_view">
+            <field name="name">task.template.kanban</field>
+            <field name="model">task.template</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_content oe_kanban_global_click o_kanban_get_form">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <strong>
+                                            <field name="name"
+                                                   string="Task Name"/>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-8">
+                                        <field name="partner_id"
+                                               string="Contact"/>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="oe_kanban_bottom_right float-end">
+                                            <field name="user_ids"
+                                                   widget="many2many_avatar_user"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <!--        create tree view on task template-->
+        <record id="task_template_tree_view" model="ir.ui.view">
+            <field name="name">task.template.tree.view</field>
+            <field name="model">task.template</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="user_ids"/>
+                    <field name="deadline"/>
+                </tree>
+            </field>
+        </record>
+        <record id="task_template_form_view" model="ir.ui.view">
+            <field name="name">task.template.form.view</field>
+            <field name="model">task.template</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="create_task" type="object"
+                                string="Create Task"
+                                style="bg-color: #71639e"
+                                class="btn btn-primary"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1 class="d-flex flex-row">
+                                <field name="name" class="o_text_overflow"
+                                       placeholder="e.g. Task title.."/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="project_id"/>
+                                <field name="user_ids" widget="many2many_tags"/>
+                            </group>
+                            <group>
+                                <field name="deadline"/>
+                                <field name="tags_ids" widget="many2many_tags"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Description">
+                                <field name="description"
+                                       placeholder="Add a description..."
+                                       nolabel="1" colspan="2"/>
+                            </page>
+                            <page string="Extra info">
+                                <group>
+                                    <group>
+                                        <field name="partner_id"/>
+                                        <field name="company_id"/>
+                                        <field name="sequence"/>
+                                        <field name="email_cc"/>
+                                    </group>
+                                    <group>
+                                        <field name="date_assign"/>
+                                        <field name="date_last_stage_update"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--create action on task template-->
+        <record id="task_template_action" model="ir.actions.act_window">
+            <field name="name">Task Template</field>
+            <field name="res_model">task.template</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[]</field>
+        </record>
+        <!--        create menu of task template-->
+        <menuitem name="Task Template" id="menu_task_template"
+                  parent="menu_project_templates"
+                  action="task_template_action"/>
+    </data>
+</odoo>

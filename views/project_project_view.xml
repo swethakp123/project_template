@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--    create this record on new button and smart button on project form view-->
+    <record id="project_project_view_form" model="ir.ui.view">
+        <field name="name">project.project.view.form</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='%(project.project_share_wizard_action)d']"
+                   position="before">
+                <button name="create_project_template" type='object'
+                        string='Create Project Template'
+                        style="bg-color: #71639e" class="btn btn-primary">
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

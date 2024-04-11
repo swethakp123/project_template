@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!--       create a kanban view for project template-->
+        <record id="project_template_kanban_view" model="ir.ui.view">
+            <field name="name">project.template.kanban</field>
+            <field name="model">project.template</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="user_id" string="Project Manager"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_content oe_kanban_global_click o_kanban_get_form">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <strong>
+                                            <field name="name"
+                                                   string="Project Name"/>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-8">
+                                        <field name="partner_id"
+                                               string="Contact"/>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="oe_kanban_bottom_right float-end">
+                                            <field name="user_id"
+                                                   widget="many2one_avatar_user"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <!--create a tree view on project template-->
+        <record id="project_template_tree_view" model="ir.ui.view">
+            <field name="name">project.template.tree.view</field>
+            <field name="model">project.template</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="company_id"/>
+                    <field name="allocated_hours"/>
+                    <field name="user_id"/>
+                </tree>
+            </field>
+        </record>
+        <!--        create a form view on project template-->
+        <record id="project_template_form_view" model="ir.ui.view">
+            <field name="name">project.template.form.view</field>
+            <field name="model">project.template</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="create_project" type="object"
+                                string="Create Project"
+                                style="bg-color: #71639e"
+                                class="btn btn-primary"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1 class="d-flex flex-row">
+                                <field name="name" class="o_text_overflow"
+                                       placeholder="e.g. Office Party"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="label_tasks"
+                                   string="Name of the tasks"/>
+                        </group>
+                        <notebook>
+                            <page string="Description">
+                                <field name="description"
+                                       placeholder="Add a description..."
+                                       nolabel="1" colspan="2"/>
+                            </page>
+                            <page string="settings">
+                                <group>
+                                    <group>
+                                        <field name="user_id"
+                                               string="Project Manager"
+                                               style="width:50%;color:#71639e"/>
+                                        <field name="partner_id"
+                                               string="Customer"
+                                               style="width:50%;color:#71639e"/>
+                                        <field name="company_id"
+                                               string="Company"/>
+                                    </group>
+                                    <group>
+                                        <field name="privacy_visibility"
+                                               string="Visibility"
+                                               widget="radio"/>
+                                    </group>
+                                </group>
+                                <h2>Time Scheduling</h2>
+                                <group>
+                                    <group>
+                                        <field name="allocated_hours"
+                                               string="Allocated Hours"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--        view action for project template-->
+        <record id="project_template_action" model="ir.actions.act_window">
+            <field name="name">Project Template</field>
+            <field name="res_model">project.template</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[]</field>
+        </record>
+        <!--create new menu under the templates-->
+        <menuitem name="Templates" id="menu_project_templates"
+                  parent="project.menu_main_pm"
+                  sequence="3"/>
+        <menuitem name="Project Template" id="menu_project_template"
+                  parent="menu_project_templates"
+                  action="project_template_action"/>
+    </data>
+</odoo>
